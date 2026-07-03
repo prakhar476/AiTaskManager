@@ -1,0 +1,68 @@
+import { useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { X } from 'lucide-react'
+import { cn } from '@/utils/helpers'
+
+export function Modal({ isOpen, onClose, title, children, size = 'md', className }) {
+  useEffect(() => {
+    if (isOpen) document.body.style.overflow = 'hidden'
+    else        document.body.style.overflow = ''
+    return () => { document.body.style.overflow = '' }
+  }, [isOpen])
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose() }
+    if (isOpen) window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [isOpen, onClose])
+
+  const sizes = {
+    sm:  'max-w-md',
+    md:  'max-w-xl',
+    lg:  'max-w-2xl',
+    xl:  'max-w-4xl',
+    full:'max-w-6xl',
+  }
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={onClose}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 10 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className={cn(
+              'relative w-full bg-surface-card border border-surface-border rounded-2xl shadow-2xl',
+              'max-h-[90vh] flex flex-col',
+              sizes[size],
+              className
+            )}
+          >
+            {title && (
+              <div className="flex items-center justify-between px-6 py-4 border-b border-surface-border flex-shrink-0">
+                <h2 className="text-base font-semibold text-gray-100">{title}</h2>
+                <button
+                  onClick={onClose}
+                  className="p-1.5 rounded-lg text-gray-500 hover:text-gray-200 hover:bg-surface-hover transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            )}
+            <div className="overflow-y-auto flex-1 p-6">{children}</div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  )
+}

@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  :root {
+    --color-primary:    #6366f1;
+    --color-surface:    #0f0f1a;
+    --color-card:       #16162a;
+    --color-border:     #2a2a45;
+    --color-text:       #e2e8f0;
+    --color-muted:      #64748b;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a45;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3a3a60; }
+}
+
+@layer components {
+  .card {
+    @apply bg-surface-card border border-surface-border rounded-2xl;
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 hover:bg-primary-600 text-white font-medium
+           px-4 py-2 rounded-xl transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-primary-500/50
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent hover:bg-surface-hover text-gray-400 hover:text-gray-200
+           font-medium px-4 py-2 rounded-xl transition-all duration-200
+           focus:outline-none;
+  }
+
+  .input-base {
+    @apply w-full bg-surface-hover border border-surface-border rounded-xl
+           px-4 py-2.5 text-gray-200 placeholder-gray-500
+           focus:outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30
+           transition-all duration-200 text-sm;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5
+           rounded-full text-xs font-medium;
+  }
+
+  .priority-critical { @apply text-red-400 bg-red-400/10 border border-red-400/20; }
+  .priority-high     { @apply text-orange-400 bg-orange-400/10 border border-orange-400/20; }
+  .priority-medium   { @apply text-yellow-400 bg-yellow-400/10 border border-yellow-400/20; }
+  .priority-low      { @apply text-blue-400 bg-blue-400/10 border border-blue-400/20; }
+  .priority-minimal  { @apply text-gray-400 bg-gray-400/10 border border-gray-400/20; }
+
+  .skeleton {
+    @apply bg-surface-hover rounded-lg animate-pulse;
+    background: linear-gradient(90deg, #16162a 25%, #1e1e35 50%, #16162a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .ai-glow {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+  }
+
+  .glass {
+    @apply backdrop-blur-sm bg-surface-card/80 border border-surface-border/50;
+  }
+}
