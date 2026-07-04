@@ -127,16 +127,9 @@ class NLPEngine:
             # Add bigrams and partial matches
             self._category_index[cat_name] = keywords
 
-    def _get_spacy(self):
-        """Lazy-load spaCy model."""
-        if self._spacy_model is None:
-            try:
-                import spacy
-                self._spacy_model = spacy.load('en_core_web_sm')
-            except Exception:
-                logger.warning("spaCy model not available, using fallback NLP")
-                self._spacy_model = False
-        return self._spacy_model if self._spacy_model else None
+def _get_spacy(self):
+    """spaCy disabled — using regex fallback NLP."""
+    return None
 
     def preprocess(self, text: str) -> str:
         """Normalize text for analysis."""
