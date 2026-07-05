@@ -6,7 +6,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'https://aitaskmanager-backend.
 const api = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 60000,
+  timeout: 120000,
 })
 
 // ── Request interceptor: attach JWT ──────────────────────────────────────────

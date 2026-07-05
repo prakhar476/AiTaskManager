@@ -110,14 +110,16 @@ export default function RegisterPage() {
               {serverError}
             </p>
           )}
-{wakingUp && (
-  <p className="text-sm text-yellow-400 bg-yellow-400/10 border border-yellow-400/20 rounded-xl px-4 py-3 text-center">
-    ⏳ Waking up server… this takes ~30 seconds on first load. Please wait.
-  </p>
+{/* Waking up notice */}
+{loading && (
+  <div className="text-sm text-yellow-400 bg-yellow-400/10 border border-yellow-400/20 rounded-xl px-4 py-3 text-center animate-pulse">
+    ⏳ Server is waking up — this takes ~60 seconds on first visit. Please wait…
+  </div>
 )}
-          <Button type="submit" variant="primary" loading={loading} className="w-full" size="lg">
-            Create account
-          </Button>
+
+<Button type="submit" variant="primary" loading={loading} className="w-full" size="lg">
+  Create account
+</Button>
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-6">

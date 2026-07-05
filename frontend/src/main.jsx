@@ -5,10 +5,13 @@ import { Toaster } from 'react-hot-toast'
 import App from './App'
 import './styles/globals.css'
 
-// Wake up Render backend on app load
-fetch('https://aitaskmanager-backend.onrender.com/api/v1/auth/register/', {
-  method: 'OPTIONS'
-}).catch(() => {})
+// Wake up Render backend immediately on app load
+setTimeout(() => {
+  fetch('https://aitaskmanager-backend.onrender.com/api/docs/', {
+    method: 'GET',
+    mode: 'no-cors'
+  }).catch(() => {})
+}, 100)
 
 const queryClient = new QueryClient({
   defaultOptions: {
