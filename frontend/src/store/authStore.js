@@ -25,20 +25,22 @@ const useAuthStore = create(
         }
       },
 
-      register: async (userData) => {
-        set({ loading: true })
-        try {
-          const { data } = await authAPI.register(userData)
-          localStorage.setItem('access_token',  data.tokens.access)
-          localStorage.setItem('refresh_token', data.tokens.refresh)
-          set({ user: data.user, isAuthenticated: true, loading: false })
-          toast.success('Account created! Welcome to TaskAI 🚀')
-          return { success: true }
-        } catch (err) {
-          set({ loading: false })
-          return { success: false, error: err.response?.data }
-        }
-      },
+     register: async (userData) => {
+  set({ loading: true })
+  try {
+    console.log('Attempting registration at:', import.meta.env.VITE_API_URL || 'https://aitaskmanager-backend.onrender.com/api/v1')
+    const { data } = await authAPI.register(userData)
+    localStorage.setItem('access_token',  data.tokens.access)
+    localStorage.setItem('refresh_token', data.tokens.refresh)
+    set({ user: data.user, isAuthenticated: true, loading: false })
+    toast.success('Account created! Welcome to TaskAI 🚀')
+    return { success: true }
+  } catch (err) {
+    set({ loading: false })
+    console.error('Registration error:', err.response?.data || err.message)
+    return { success: false, error: err.response?.data }
+  }
+},
 
       logout: async () => {
         const refresh = localStorage.getItem('refresh_token')
