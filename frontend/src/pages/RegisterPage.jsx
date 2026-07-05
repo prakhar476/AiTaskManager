@@ -10,27 +10,30 @@ import { Input } from '@/components/ui/Input'
 export default function RegisterPage() {
   const { register: registerUser, loading } = useAuthStore()
   const [serverError, setServerError] = useState('')
+  const [wakingUp, setWakingUp] = useState(false)
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const password = watch('password')
 
   const onSubmit = async (data) => {
-    setServerError('')
-    const payload = {
-      username:   data.username,
-      email:      data.email,
-      password:   data.password,
-      password2:  data.password2,
-      first_name: data.first_name,
-      last_name:  data.last_name,
-    }
-    const result = await registerUser(payload)
-    if (!result.success) {
-      const errData = result.error
-      const msg = errData?.email?.[0] || errData?.username?.[0] || errData?.password?.[0] || errData?.detail || 'Registration failed.'
-      setServerError(msg)
-    }
+  setServerError('')
+  setWakingUp(true)
+  const payload = {
+    username:   data.username,
+    email:      data.email,
+    password:   data.password,
+    password2:  data.password2,
+    first_name: data.first_name,
+    last_name:  data.last_name,
   }
+  const result = await registerUser(payload)
+  setWakingUp(false)
+  if (!result.success) {
+    const errData = result.error
+    const msg = errData?.email?.[0] || errData?.username?.[0] || errData?.password?.[0] || errData?.detail || 'Registration failed.'
+    setServerError(msg)
+  }
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-surface p-6">
@@ -107,7 +110,11 @@ export default function RegisterPage() {
               {serverError}
             </p>
           )}
-
+{wakingUp && (
+  <p className="text-sm text-yellow-400 bg-yellow-400/10 border border-yellow-400/20 rounded-xl px-4 py-3 text-center">
+    ⏳ Waking up server… this takes ~30 seconds on first load. Please wait.
+  </p>
+)}
           <Button type="submit" variant="primary" loading={loading} className="w-full" size="lg">
             Create account
           </Button>

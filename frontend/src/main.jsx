@@ -5,6 +5,11 @@ import { Toaster } from 'react-hot-toast'
 import App from './App'
 import './styles/globals.css'
 
+// Wake up Render backend on app load
+fetch('https://aitaskmanager-backend.onrender.com/api/v1/auth/register/', {
+  method: 'OPTIONS'
+}).catch(() => {})
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
